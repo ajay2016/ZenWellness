@@ -1,0 +1,81 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% load core_extras %}
+{% block title %} Update Transaction | ZenWellness {% endblock title %}
+{% block styles %}
+  <style>
+    .errorlist{
+        list-style-type: none;
+        color: red;
+    }
+  </style>
+{% endblock styles %}
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'warehouse:warehouse_transaction' warehouse.slug %}">Transactions</a></li>
+            <li class="breadcrumb-item active">Update Transaction</li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">{{ form_title }} - {{ warehouse.name }}</h3>
+              </div>
+
+              <form role="form" action="{{ form_action }}" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                  <div class="form-group">
+                    <label>Rate</label>
+                    {{ form.rate | add_class:"form-control" }}
+                    {{ form.rate.errors }}
+                  </div>
+                  <div class="form-group">
+                    <label>Quantity</label>
+                    {{ form.quantity | add_class:"form-control" }}
+                    {{ form.quantity.errors }}
+                  </div>
+                  <div class="form-group">
+                    <label>Discount</label>
+                    {{ form.discount | add_class:"form-control" }}
+                    {{ form.discount.errors }}
+                  </div>
+                  <div class="form-group">
+                    <label>Brand</label>
+                    {{ form.brand | add_class:"form-control" }}
+                    {{ form.brand.errors }}
+                  </div>
+                  <div class="form-group">
+                    <label>Company</label>
+                    {{ form.company | add_class:"form-control" }}
+                    {{ form.company.errors }}
+                  </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}

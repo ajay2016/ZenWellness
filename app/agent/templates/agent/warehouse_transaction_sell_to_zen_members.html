@@ -1,0 +1,342 @@
+{% extends "website/auth/layout.html" %}
+{% load core_extras %}
+{% load static %}
+{% block styles %}
+  <style>
+      .failure{
+        color: red;
+      }
+      .success{
+        color: green;
+      }
+      .hide{
+        display: none;
+      }
+      .show{
+        display: block;
+      }
+      .form-control{
+          border: 1px solid #c5c7c7 !important;
+      }
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'website/css/select2-bootstrap4.min.css' %}">
+{% endblock styles %}
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+           <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                        {% if messages %}
+                              {% for message in messages %}
+                                  <div class="alert alert-{{ message.extra_tags }} alert-dismissible fade show" role="alert">
+                                  <strong>{{ message }}</strong> 
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  </div>
+                              {% endfor %}
+                          {% endif %}
+                        <h4 class="card-title">Sell products</h4>
+                        <hr>
+                        <form method="POST" action="{% url 'agent:warehouse_transaction_sell_to_members' %}">
+                        {% csrf_token %}                    
+                          <div style="border-bottom: 2px solid #f0f3f6; margin: 5px;" class="row order_rows"  id="add_more_div">
+                              <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Product</label>
+                                    <select required name="product[]" class="form-control products">
+                                      <option>Select Product</option>
+                                      {% for product in products %}
+                                        <option value="{{ product.pk }}">
+                                          {{ product.name }}
+                                        </option>
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                <div class="form-group">
+                                  <label>Brand</label>
+                                    <select required name="brand[]" id="brand" class="brand form-control">
+                                    </select>
+                                </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Company</label>
+                                    <select required name="company[]" class="company form-control">
+                                    </select>
+                                </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Rate</label>
+                                    <input disabled required type="number" name="rate[]" class="rate form-control">
+                                </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Quantity</label>
+                                    <input required type="number" name="quantity[]" class="quantity form-control">
+                                    <small class="qty_message"></small>
+                                </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Discount</label>
+                                    <input required type="number" name="discount[]" class="form-control">
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- End row -->
+                            <div class="row" style="margin-top: 15px;">
+                                <div class='col-md-8'>
+                                   <select required name="user" id="" class="form-control select2">
+                                        <option value="">Select Member By Phone Number</option>
+                                        {% for member in members %}
+                                            <option value="{{ member.phone_number }}">
+                                                {{ member.phone_number }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4 float-right">
+                                    <button id="add_more" type="button" 
+                                    class="btn btn-primary btn-icon-text">
+                                    <i class="mdi mdi-cart-plus btn-icon-prepend"></i>
+                                    Add More
+                                    </button>
+                                    
+                                    <button type="submit"
+                                    class="btn btn-primary btn-icon-text">
+                                    <i class="mdi mdi-file-check btn-icon-prepend"></i>
+                                    Submit
+                                    </button>
+                                </div>
+                               
+                            </div>
+                            <!-- End row -->
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}
+
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+  <script>
+      $( document ).ready(function() {
+        $('.select2').select2({
+            theme: 'bootstrap4',
+        });
+          $(document).on("click",".remove_row",function(e) {
+            e.preventDefault();
+            $(this).parent().closest('div.order_rows').remove()
+          });
+          $(document).on("click","#add_more",function(e) {
+            e.preventDefault();
+            html = `
+            <div style="border-bottom: 2px solid #f0f3f6; margin: 5px;" class="row order_rows" >
+              <div class="col-md-2">
+                <div class="form-group">
+                    <label>Product</label>
+                    <select required name="product[]" class="form-control products">
+                      <option>Select Product</option>
+                      {% for product in products %}
+                        <option value="{{ product.pk }}">
+                          {{ product.name }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Product</label>
+                    <select required name="brand[]" class="brand form-control">
+                    </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                    <label>Company</label>
+                    <select required name="company[]" class="company form-control">
+                    </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                    <label>Rate</label>
+                    <input disabled required type="number" name="rate[]" class="rate form-control">
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input required type="number" name="quantity[]" class="quantity form-control">
+                    <small class="qty_message"></small>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                    <label>Discount</label>
+                    <input required type="number" name="discount[]" class="form-control">
+                </div>
+              </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                      <button type="button" class="remove_row btn btn-danger">Remove</button>
+                  </div>
+                </div>
+                
+              </div>
+            `;
+            $('div.order_rows:last').after(html);
+          });
+
+        $(document).on("change",".products",function(e) {
+            e.preventDefault();
+            $this = $(this);
+            product = $this.val();
+              $.ajax({
+                method: 'POST',
+                data: {
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+                  product:product
+                },
+                url: "{% url 'agent:get_brands' %}", 
+                success: function(result){
+                    option_brand = '<option>Select Brand</option>';
+                    option_company = '<option>Select Company</option>';
+                    // loop tbdltr
+                    $.each(result['brands'], function(index, value){
+                      option_brand += '<option value="'+value[1]+'">'+value[0]+'</option>';
+                    });
+                    $.each(result['company'], function(index, value){
+                      option_company += '<option value="'+value[1]+'">'+value[0]+'</option>';
+                    }); 
+                    parent = $this.parent().closest('div.order_rows');
+                    parent.find('select.brand').html(option_brand);
+                    parent.find('select.company').html(option_company);
+                    parent.find('input.rate').val("");
+                    parent.find('input.quantity').val("");
+                    parent.find('input.discount').val("");
+                }
+              });
+        });
+
+      $(document).on("change",".company, .brand",function(e) {
+        // tbdltr
+            e.preventDefault();
+            $this = $(this);
+            product = $this.parent().closest('div.order_rows')
+              .find('select.products').val()
+            make_request = false;
+            if ($this.hasClass('brand')){
+                brand = $(this).val()
+                check = $this.parent().closest('div.order_rows')
+                  .find('select.company').val();
+                console.log(check)
+                if (check){
+                  company = check;
+                  make_request = true;
+                }
+            }else if($this.hasClass('company')){
+                company = $(this).val()
+                check = $this.parent().closest('div.order_rows')
+                  .find('select.brand').val();
+                if (check){
+                  brand = check;
+                  make_request = true;
+                }
+            }
+            if(make_request){
+              $.ajax({
+                method: 'POST',
+                data: {
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+                  product:product,
+                  brand:brand,
+                  company:company
+                },
+                url: "{% url 'agent:get_rate' %}", 
+                success: function(result){
+                    $this.parent().closest('div.order_rows')
+                      .find('input.rate').val(result['rate'])
+                },
+                error: function(result){
+                    $this.parent().closest('div.order_rows')
+                      .find('input.rate').val("")
+                }
+              });
+            }
+        });
+
+        $(document).on("input",".quantity", function(e) {
+            e.preventDefault();
+            if(!$(this).val()){
+              $this.parent().closest('div.order_rows')
+                            .find('small.qty_message')
+                            .removeClass('show')
+                            .addClass('hide');
+            }
+            $this = $(this);
+            quantity = $this.val();
+            product = $this.parent().closest('div.order_rows')
+              .find('select.products').val();
+            company = $this.parent().closest('div.order_rows')
+                  .find('select.company').val();
+            brand = $this.parent().closest('div.order_rows')
+                  .find('select.brand').val();
+            if(product && company && brand && quantity){
+              $.ajax({
+                method: 'POST',
+                data: {
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+                  product:product,
+                  brand:brand,
+                  company:company,
+                  quantity:quantity
+                },
+                url: "{% url 'agent:get_product_quantity' %}", 
+                success: function(result){
+                  field = $this.parent().closest('div.order_rows')
+                    .find('.qty_message');
+                  field.addClass('show');
+                  field.removeClass('hide');
+                  if (result['status'] == 'success'){
+                    field.addClass('success');
+                    field.removeClass('failure');
+                  }else if(result['status'] == 'failure'){
+                    field.removeClass('success');
+                    field.addClass('failure');
+                  }
+                  field.html(result['message']);
+                }
+              });
+            }
+        });
+
+      });
+      
+  </script>
+{% endblock scripts %}

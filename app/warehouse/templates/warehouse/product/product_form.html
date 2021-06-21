@@ -1,0 +1,174 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% load core_extras %}
+{% block title %} Add Product | ZenWellness {% endblock title %}
+{% block styles %}
+  <style>
+    .upload_image{
+        width: 120px;
+        height: 120px;
+    }
+    .errorlist{
+        list-style-type: none;
+        color: red;
+    }
+  </style>
+{% endblock styles %}
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'warehouse:product_list' %}">Products</a></li>
+            <li class="breadcrumb-item active">{{ form_title }}</li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">{{ form_title }}</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form enctype="multipart/form-data" role="form" action="{{ form_action }}" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                {{ form.name | add_class:"form-control" }}
+                                {{ form.name.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Category</label>
+                                {{ form.category | add_class:"form-control select2" }}
+                                {{ form.category.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Discipline</label>
+                                {{ form.discipline | add_class:"form-control" }}
+                                {{ form.discipline.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Image</label>
+                                <br/>
+                                {{ form.image | add_class:"form-control upload_profile_pic" }}
+                                {{ form.image.errors }}
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Warehouse</label>
+                                <br/>
+                                {{ form.warehouse | add_class:"form-control select2" }}
+                                {{ form.warehouse.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Is Online Product ?</label>
+                                <br/>
+                                {{ form.is_online_product  }}
+                                {{ form.is_online_product.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Include In Prescription</label>
+                                <br/>
+                                {{ form.include_in_prescription  }}
+                                {{ form.include_in_prescription.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Is Prescription Required To Be Sold ?</label>
+                                <br/>
+                                {{ form.required_prescription  }}
+                                {{ form.required_prescription.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Composition</label>
+                                {{ form.composition | add_class:"form-control" }}
+                                {{ form.composition.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Remark</label>
+                                {{ form.remark | add_class:"form-control" }}
+                                {{ form.remark.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}
+
+{% block scripts %}
+  <script>
+    $(".upload_profile_pic").change(function(e) {
+
+    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+        var file = e.originalEvent.srcElement.files[i];
+        var img = document.createElement("img");
+        var att = document.createAttribute("class");
+        att.value = "upload_image"; 
+        img.setAttributeNode(att);
+        var reader = new FileReader();
+        reader.onloadend = function() {
+             img.src = reader.result;
+        }
+        reader.readAsDataURL(file);
+        $(".upload_profile_pic").after(img);
+    }
+});
+  </script>
+{% endblock scripts %}

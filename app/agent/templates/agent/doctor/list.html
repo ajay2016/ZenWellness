@@ -1,0 +1,147 @@
+{% extends "website/auth/layout.html" %}
+
+{% block styles %}
+  <style>
+    .doc_block{
+        cursor: pointer;
+        transition: transform .2s;
+    }
+    .doc_block:hover{
+        transform: scale(0.9);
+    }
+    a:hover{
+        text-decoration: none;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-sm-12 mb-12 mb-xl-0">
+                <div class="card">
+                    <div class="card-body">
+                    <h4 class="card-title">Search Doctor</h4>
+                    <form>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" value="{{ request.GET.first_name }}" name="first_name" class="form-control" placeholder="First name">
+                            </div>
+                            <div class="col">
+                                <input type="text" value="{{ request.GET.last_name }}" name="last_name" class="form-control" placeholder="Last name">
+                            </div>
+                            <div class="col">
+                                <select class="form-control" name="discipline">
+                                    <option value="">Select Discipline</option>
+                                    {% for discipline in disciplines %}
+                                        <option {% if discipline.pk == request.GET.discipline %} selected {% endif %}
+                                        value="{{ discipline.pk }}">
+                                            {{ discipline.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary">Filter</button>
+                                <a href="{% url 'agent:list_doctors' %}" class="btn btn-warning" style="cursor: pointer;">Clear Filter</a>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col-sm-12 flex-column d-flex stretch-card">
+                    <div class="row">
+                    {% for doctor in doctors %}
+                        <div class="col-sm-4 flex-column d-flex stretch-card doc_block">
+                            <a href="{% url 'agent:doctors_detail' doctor.pk %}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            <h5 class="font-weight-bold text-dark">
+                                                {{ doctor.designation }}
+                                                {{ doctor.first_name }}
+                                                {% if doctor.middle_name %}
+                                                    {{ doctor.middle_name }}
+                                                {% endif %}
+                                                {{ doctor.last_name }}
+                                            </h5>
+                                            <p class="text-dark">
+                                                {{ doctor.discipline }}
+                                            </p>
+                                            <p class="text-dark">
+                                            {{ doctor.user.phone_number }}
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="position-relative">
+                                                {% if doctor.profile_pic %}
+                                                <img src="{{ doctor.profile_pic.url }}" 
+                                                class="w-100" alt="">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- End of card -->
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if doctors.has_other_pages %}
+                {% with request.get_full_path as querystring %}
+                <div class="row" style="padding: 40px;">
+                    <nav style="margin: 0 auto;">
+                        <ul class="pagination">
+                        {% if doctors.has_previous %}
+                            <li class="page-item">
+                            {% if 'page' in querystring %}
+                                <a class="page-link" href="{{ request.get_full_path | slice:":-7" }}&page={{ doctors.previous_page_number }}" tabindex="-1">Previous</a>
+                            {% else%}
+                                <a class="page-link" href="{{ request.get_full_path }}&page={{ doctors.previous_page_number }}" tabindex="-1">Previous</a>
+                            {% endif %}
+                            </li>
+                        {% endif %}
+
+                        {% for i in doctors.paginator.page_range %}
+                            {% if doctors.number == i %}
+                                <li class="active page-item"><a class="page-link" href="#">{{ i }} 
+                                <span class="sr-only">(current)</span></a></li>
+                            {% else %}
+                                {% if 'page' in querystring %}
+                                    <li class="page-item"><a class="page-link" href="{{ request.get_full_path | slice:":-7" }}&page={{ i }}">{{ i }}</a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if doctors.has_next %}
+                            <li class="page-item">
+                            {% if 'page' in querystring %}
+                                <a class="page-link" href="{{ request.get_full_path | slice:":-7"}}&page={{ doctors.next_page_number }}">Next</a>
+                            {% else %}
+                                <a class="page-link" href="{{ request.get_full_path }}&page={{ doctors.next_page_number }}">Next</a>
+                            {% endif %}
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                {% endwith %}
+            {% endif %}
+            <!-- End of pagination-->
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}

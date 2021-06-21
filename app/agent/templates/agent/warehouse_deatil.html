@@ -1,0 +1,134 @@
+{% extends "website/auth/layout.html" %}
+
+{% block styles %}
+  <style>
+    #out_of_stock_header{
+        background-color: #ee5b5b !important;
+        color: #000000;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-6 mb-4 mb-xl-0">
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center justify-content-md-end">
+                        <div class="pr-1 mb-3 mb-xl-0">
+                            <a href="{% url 'agent:warehouse_transaction_buy' warehouse.slug %}">
+                                <button type="button" class="btn btn-outline-inverse-info btn-icon-text">
+                                    Buy Product
+                                    <i class="mdi mdi-basket-fill btn-icon-append"></i>                          
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of breadcrumb -->
+            <!-- First row -->
+            <div class="row mt-4">
+                <div class="col-sm-8 flex-column d-flex stretch-card">
+                <!-- card -->
+                    <div class="card">
+                        <div class="card-body">
+                        <h4 class="card-title">Recent Transactions</h4>
+                        <div class="table-responsive pt-3">
+                            <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th>S.N</th>
+                                <th>Product</th>
+                                <th>Buy/Sell</th>
+                                <th>Brand</th>
+                                <th>Company</th>
+                                <th>Rate</th>
+                                <th>Quantity</th>
+                                <th>Discount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ transaction.product }}</td>
+                                        <td>
+                                            {% if transaction.transaction_type == 'I' %}
+                                                <span class="badge badge-pill badge-primary">
+                                                    Bought
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-pill badge-success">
+                                                    Sold
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ transaction.brand }}</td>
+                                        <td>{{ transaction.company }}</td>
+                                        <td>{{ transaction.rate }}</td>
+                                        <td>{{ transaction.quantity }}</td>
+                                        <td>{{ transaction.discount }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+              <!-- end of card -->
+                </div>
+                <div class="col-sm-4 flex-column d-flex stretch-card">
+                    <div class="card">
+                        <div class="card-header" id="out_of_stock_header">
+                            Running Out Of Stock
+                        </div>
+                        <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Product
+                                            </th>
+                                            <th>
+                                                Company
+                                            </th>
+                                            <th>
+                                                Brand
+                                            </th>
+                                            <th>
+                                                Left
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for product in low_stock_orders %}
+                                    <tr>
+                                        <td>
+                                            <a>
+                                                {{ product }}
+                                            </a>
+                                        </td>
+                                        <td>{{ product.brand }}</td>
+                                        <td>{{ product.company }}</td>
+                                        <td>
+                                            <span class="badge badge-pill badge-danger">
+                                            {{ product.total }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End first row -->
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}

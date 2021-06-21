@@ -1,0 +1,55 @@
+{% extends "website/auth/layout.html" %}
+
+{% block styles %}
+  <style>
+    .warehouse_block{
+        cursor: pointer;
+        transition: transform .2s;
+    }
+    .warehouse_block:hover{
+        transform: scale(0.9);
+    }
+    #product_badge{
+        font-size: 12px;
+    }
+    #discipline_name{
+        font-size: 0.80rem;
+    }
+    a:hover{
+        text-decoration: none;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12 flex-column d-flex stretch-card">
+                    <div class="row">
+                    {% for warehouse in warehouses%}
+                        <div class="warehouse_block col-lg-4 d-flex grid-margin stretch-card">
+                            <div class="card sale-diffrence-border">
+                                <a href="{% url 'agent:warehouse_detail' warehouse.slug %}">
+                                    <div class="card-body">
+                                        <h2 class="text-dark mb-2 font-weight-bold">
+                                        {{ warehouse.name }}</h2>
+                                        <h6 id="discipline_name" class="card-title mb-2">
+                                            {{ warehouse.discipline }}</h6>
+                                        <small class="text-muted">
+                                        <span id="product_badge" class="badge badge-pill badge-primary">
+                                        Total Products: {{ warehouse.product_set.count }}</span>
+                                        </small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}  
+                    </div>                 
+                </div>
+            </div>
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}

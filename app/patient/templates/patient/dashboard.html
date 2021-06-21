@@ -1,0 +1,86 @@
+{% extends "website/partials/layout.html" %}
+{% load static %}
+{% block content %}
+<section class="g-my-30">
+    <div class="container">
+    <ul class="u-list-inline">
+        <li class="list-inline-item g-mr-7">
+        <a class="u-link-v5 g-color-main g-color-primary--hover" href="#">
+        Dashbaord</a>
+        <i class="fa fa-angle-right g-ml-7"></i>
+        </li>
+    </ul>
+    </div>
+</section>
+<section class="g-mb-100">
+    <div class="container">
+        <div class="row">
+            {% include "patient/partials/navigation.html" %}
+
+        <!-- Profile Content -->
+        <div class="col-lg-9">
+        <!-- Product Table Panel -->
+        <div class="card border-0">
+            <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+            <h3 class="h6 mb-0">
+
+                <i class="icon-directions g-pos-rel g-top-1 g-mr-5"></i> 
+                    Recently Bought Medicines
+                </h3>
+            <div class="dropdown g-mb-10 g-mb-0--md">
+                <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <i class="icon-options-vertical g-pos-rel g-top-1"></i>
+
+                </span>
+                <div class="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
+                <a class="dropdown-item g-px-10" href="#!">
+                    <i class="icon-layers g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Projects
+                </a>
+                <a class="dropdown-item g-px-10" href="#!">
+                    <i class="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Wallets
+                </a>
+                <a class="dropdown-item g-px-10" href="#!">
+                    <i class="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Reports
+                </a>
+                <a class="dropdown-item g-px-10" href="#!">
+                    <i class="icon-settings g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Users Setting
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <a class="dropdown-item g-px-10" href="#!">
+                    <i class="icon-plus g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> View More
+                </a>
+                </div>
+            </div>
+            </div>
+
+            <div class="card-block g-pa-0">
+            <!-- Product Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered u-table--v2">
+                <thead class="text-uppercase g-letter-spacing-1">
+                    <tr>
+                    <th class="g-font-weight-300 g-color-black">Product Name</th>
+                    <th class="g-font-weight-300 g-color-black">Price</th>
+                    <th class="g-font-weight-300 g-color-black">Quantity</th>
+                    <th class="g-font-weight-300 g-color-black">Discount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                   
+                </tbody>
+                </table>
+            </div>
+            <!-- End Product Table -->
+            </div>
+        </div>
+        <!-- End Product Table Panel -->
+        </div>
+        <!-- End Profile Content -->
+        </div>
+    </div>
+</section>
+{% endblock content %}

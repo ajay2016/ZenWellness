@@ -1,0 +1,271 @@
+{% extends "website/auth/layout.html" %}
+{% load static %}
+{% load core_extras %}
+{% block styles %}
+  <style>
+    .doc_block{
+        cursor: pointer;
+        transition: transform .2s;
+    }
+    .doc_block:hover{
+        transform: scale(0.9);
+    }
+    a:hover{
+        text-decoration: none;
+    }
+    .table td img {
+      width: 60px;
+      height: 60px;
+      border-radius: 100%;
+    }
+    select.form-control{
+        color: black;
+    }
+    #delivery_details{
+        display: none;
+        margin-top: 10px;
+    }
+    .datepicker{
+        padding: .7995rem .75rem !important;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'core/css/bootstrap-datepicker.min.css' %}">
+{% endblock styles %}
+
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-6 mb-4 mb-xl-0">
+                    <div class="d-lg-flex align-items-center">
+                        <div>
+                            <h3 class="text-dark font-weight-bold mb-2">
+                                Schedule Lab Test For - 
+                                {{ profile.first_name }}
+                                {% if profile.middle_name %}{{ profile.middle_name }} {% endif %}
+                              {{ profile.last_name }}
+                            </h3>
+                        </div>
+                        <div class="ml-lg-5 d-lg-flex d-none">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center justify-content-md-end">
+                        <div class="pr-1 mb-3 mb-xl-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="card">
+                <div class="card-body">
+                    <form role="form" action="" method="POST">
+                        <div class="form-group">
+                        </div>
+                        {% csrf_token %}
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Lab</label>
+                                    {{ form.lab | add_class:"form-control lab" }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Test</label>
+                                    <select name="test" id="test" required class="form-control">
+                                        <option>Select Lab</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Date</label>
+                                    {{ form.requested_date | add_class:"form-control datepicker"}}
+                                </div>
+                                
+                                <div id="delivery_details">
+                                <hr/>
+                                <h3>Home Service Details</h3>
+                                    <div class="form-group">
+                                        Is home service required ? Fill home service details only if test is to be taken in home.
+                                        <br/>
+                                        <input type="checkbox" name="delivery_required"> Required
+                                        <input type="checkbox" id="delivery_not_required" checked name="delivery_not_required"> Not Required
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Province</label>
+                                        <select name="province" class="form-control" id="province">
+                                            <option value="">Select Province</option>
+                                            {% for province in provinces %}
+                                                <option value="{{ province.pk }}">
+                                                    {{ province.name }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Zone</label>
+                                        <select name="zone" id="zone" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">District</label>
+                                        <select name="district" id="district" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Location</label>
+                                        <select name="location" id="location" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address Detail </label>
+                                        <textarea class="form-control" name="address_detail" ></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-2 float-right">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'core/js/bootstrap-datepicker.min.js' %}"></script>
+
+  <script>
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            orientation: "bottom"
+        });
+        $(document).on('change','.lab', function(e){
+            e.preventDefault()
+            lab = $(this).val();
+            $.ajax(
+                '{% url "agent:get_lab_tests" %}', 
+                {
+                    type: 'POST',
+                    data: { 
+                        lab: lab,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data, status, xhr) {
+                        tests = data['tests'];
+                        option = '<option value="">Select Test</option>';
+                        Object.keys(tests).forEach(function(key) {
+                            let home = 'false';
+                            if(tests[key]['home_service']){
+                                home = 'true';
+                            }
+                            option +='<option data-home="'+home+'" value="'+tests[key]['id']+'">'+tests[key]['name']+'</option>';
+                        });
+                        $('#test').html(option);
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                }
+            );
+        });
+        function clear_delivery_fields(){
+            $('#delivery_details').hide();
+            $('#province').val(' ');
+            $('#zone').html(' ');
+            $('#district').html(' ');
+            $('#location').html(' ');
+            $('delivery_not_required').prop('checked', true);
+
+        }
+        $(document).on('change','#test', function(e){
+            let home_service = $(this).find(':selected').attr('data-home');
+            if(home_service){
+                $('delivery_not_required').prop('checked', false);
+                $('#delivery_details').show();
+            }else{
+                clear_delivery_fields();
+            }
+            
+        });
+        $(document).on('change','#province', function(e){
+            e.preventDefault()
+            province = $(this).val();
+            $.ajax(
+                '{% url "agent:get_zone" %}', 
+                {
+                    type: 'POST',
+                    data: { 
+                        province: province,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data, status, xhr) {
+                        zones = data['zones'];
+                        option = '<option>Select Zone</option>';
+                        Object.keys(zones).forEach(function(key) {
+                            option += '<option value="'+zones[key]['id']+'">'+zones[key]['name']+'</option>';
+                        });
+                        $('#zone').html(option);
+                        $('#district').html('<option>Select Zone</option>');
+                        $('#location').html('<option>Select District</option>');
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                }
+            );
+        });
+
+        $(document).on('change','#zone', function(e){
+            e.preventDefault()
+            zone = $(this).val();
+            $.ajax(
+                '{% url "agent:get_district" %}', 
+                {
+                    type: 'POST',
+                    data: { 
+                        zone: zone,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data, status, xhr) {
+                        districts = data['districts'];
+                        option = '<option>Select District</option>';
+                        Object.keys(districts).forEach(function(key) {
+                            option += '<option value="'+districts[key]['id']+'">'+districts[key]['name']+'</option>';
+                        });
+                        $('#district').html(option);
+                        $('#location').html('<option>Select District</option>');
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                }
+            );
+        });
+
+        $(document).on('change','#district', function(e){
+            e.preventDefault()
+            district = $(this).val();
+            $.ajax(
+                '{% url "agent:get_location" %}', 
+                {
+                    type: 'POST',
+                    data: { 
+                        district: district,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data, status, xhr) {
+                        locations = data['locations'];
+                        option = '<option>Select Location</option>';
+                        Object.keys(locations).forEach(function(key) {
+                            option += '<option value="'+locations[key]['id']+'">'+locations[key]['name']+'</option>';
+                        });
+                        $('#location').html(option);
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                }
+            );
+        });
+
+    });
+  </script>
+{% endblock scripts %}

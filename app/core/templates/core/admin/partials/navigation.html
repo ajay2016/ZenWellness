@@ -1,0 +1,275 @@
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <span class="brand-text font-weight-light">Zen Wellness</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="info">
+        <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#">
+            <i class="fa fa-key" style="color: white;"></i>
+          </a>
+          &nbsp;&nbsp;
+          <a href="{% url 'core:admin_logout' %}">
+            <i class="fas fa-sign-out-alt" style="color: white;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          
+          <li class="nav-item">
+            <a href="{% url 'core:admin_dashboard' %}" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Configurations
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'core:discipline_list' %}" class="nav-link">
+                  <i class="fas fa-tree nav-icon"></i>
+                  <p>Disciplines</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'core:sub_discipline_list' %}" class="nav-link">
+                  <i class="fab fa-pagelines nav-icon"></i>
+                  <p>Sub Disciplines</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'core:university_list' %}" class="nav-link">
+                  <i class="fas fa-university nav-icon"></i>
+                  <p>Universities</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'core:degree_list' %}" class="nav-link">
+                  <i class="fas fa-graduation-cap nav-icon"></i>
+                  <p>Degrees</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'core:designation_list' %}" class="nav-link">
+                  <i class="fas fa-medal nav-icon"></i>
+                  <p>Designation</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'core:brand_list' %}" class="nav-link">
+                  <i class="fas fa-copyright nav-icon"></i>
+                  <p>Medicine Brands</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'core:manufacturer_list' %}" class="nav-link">
+                  <i class="fas fa-industry nav-icon"></i>
+                  <p>Medicine Manufacturers</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-globe-asia"></i>
+              <p>
+                Locations
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'location:country_list' %}" class="nav-link">
+                  <i class="far fa-flag nav-icon"></i>
+                  <p>Country</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'location:province_list' %}" class="nav-link">
+                  <i class="fas fa-landmark nav-icon"></i>
+                  <p>Province</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'location:zone_list' %}" class="nav-link">
+                  <i class="fas fa-map-marked-alt nav-icon"></i>
+                  <p>Zone</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'location:district_list' %}" class="nav-link">
+                  <i class="fas fa-map-marker nav-icon"></i>
+                  <p>District</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'location:location_list' %}" class="nav-link">
+                  <i class="fas fa-thumbtack nav-icon"></i>
+                  <p>Location</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-h-square"></i>
+              <p>
+                Health Care
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'healthcare:organization_list' %}" class="nav-link">
+                  <i class="fas fa-hospital nav-icon"></i>
+                  <p>Medical Organization</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'healthcare:doctor_list' %}" class="nav-link">
+                  <i class="fas fa-user-md nav-icon"></i>
+                  <p>Doctors</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'healthcare:patient_list' %}" class="nav-link">
+                  <i class="fas fa-user-md nav-icon"></i>
+                  <p>Patients</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'healthcare:question_choice' %}" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  <p>Question Choices</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'healthcare:question_list' %}" class="nav-link">
+                  <i class="fas fa-question-circle nav-icon"></i>
+                  <p>Questions</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'healthcare:coun_question_set_list' %}" class="nav-link">
+                  <i class="fas fa-clipboard nav-icon"></i>
+                  <p>Question Sets</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-cart-plus"></i>
+              <p>
+                Products
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{% url 'warehouse:product_list' %}" class="nav-link">
+                    <i class="fab fa-product-hunt nav-icon"></i>
+                    <p>Product</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'warehouse:product_category_list' %}" class="nav-link">
+                    <i class="fas fa-list-alt nav-icon"></i>
+                    <p>Category</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'warehouse:product_subcategory_list' %}" class="nav-link">
+                    <i class="fas fa-stream nav-icon"></i>
+                    <p>Sub-Category</p>
+                  </a>
+                </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon  fas fa-handshake"></i>
+              <p>
+                Services & Inventory
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'warehouse:warehouse_list' %}" class="nav-link">
+                  <i class="fab fas fa-warehouse nav-icon"></i>
+                  <p>Warehouse</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon  fas fa-flask"></i>
+              <p>
+                Labs
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'healthcare:lab_test_items_list' %}" class="nav-link">
+                  <i class="fab fas fa-list nav-icon"></i>
+                  <p>Lab Test Items</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'healthcare:lab_tests_list' %}" class="nav-link">
+                  <i class="fab fas fa-vial nav-icon"></i>
+                  <p>Lab Tests</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'healthcare:labs_list' %}" class="nav-link">
+                  <i class="fab fas fa-vials nav-icon"></i>
+                  <p>Labs</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="{% url 'core:agent_list' %}" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Agents
+              </p>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

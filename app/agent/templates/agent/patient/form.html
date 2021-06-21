@@ -1,0 +1,192 @@
+{% extends "website/auth/layout.html" %}
+{% load core_extras %}
+{% load static %}
+{% block styles %}
+<style>
+.form-control{
+    border: 1px solid #c5c7c7;
+}
+select.form-control{
+   border: 1px solid #c5c7c7; 
+}
+</style>
+  <link rel="stylesheet" href="{% static 'core/css/bootstrap-datepicker.min.css' %}">
+{% endblock styles %}
+
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+        <div class="col-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Register New Patient</h4>
+                  <form autocomplete="off" class="forms-sample" method="POST" action="{% url 'agent:add_patient' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">Designation</label>
+                        {{ form.designation | add_class:"form-control" }}
+                        {{ form.designation.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">First Name</label>
+                        {{ form.first_name | add_class:"form-control" }}
+                        {{ form.first_name.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="">Middle Name</label>
+                        {{ form.middle_name | add_class:"form-control" }}
+                        {{ form.middle_name.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="">Last Name</label>
+                        {{ form.last_name | add_class:"form-control" }}
+                        {{ form.last_name.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="">Date Of Birth</label>
+                        {{ form.date_of_birth | add_class:"form-control datepicker" }}
+                        {{ form.date_of_birth.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="">Gender</label>
+                        {{ form.gender | add_class:"form-control" }}
+                        {{ form.gender.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="">Phone Number</label>
+                        {{ form.phone_number | add_class:"form-control" }}
+                        {{ form.phone_number.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="">Password</label>
+                        {{ form.password | add_class:"form-control" }}
+                        {{ form.password.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="">Province</label>
+                        <select name="province" class="form-control" id="province" required>
+                            <option value="">Select Province</option>
+                            {% for province in provinces %}
+                                <option value="{{ province.pk }}">
+                                    {{ province.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Zone</label>
+                        <select name="zone" id="zone" class="form-control" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">District</label>
+                        <select name="district" id="district" class="form-control" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Location</label>
+                        <select name="location" id="location" class="form-control" required>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2 float-right">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'core/js/bootstrap-datepicker.min.js' %}"></script>
+
+  <script>
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+        $(document).on('change','#province', function(e){
+            e.preventDefault()
+            province = $(this).val();
+            $.ajax(
+                '{% url "agent:get_zone" %}', 
+                {
+                    type: 'POST',
+                    data: { 
+                        province: province,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data, status, xhr) {
+                        zones = data['zones'];
+                        option = '<option>Select Zone</option>';
+                        Object.keys(zones).forEach(function(key) {
+                            option += '<option value="'+zones[key]['id']+'">'+zones[key]['name']+'</option>';
+                        });
+                        $('#zone').html(option);
+                        $('#district').html('<option>Select Zone</option>');
+                        $('#location').html('<option>Select District</option>');
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                }
+            );
+        });
+
+        $(document).on('change','#zone', function(e){
+            e.preventDefault()
+            zone = $(this).val();
+            $.ajax(
+                '{% url "agent:get_district" %}', 
+                {
+                    type: 'POST',
+                    data: { 
+                        zone: zone,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data, status, xhr) {
+                        districts = data['districts'];
+                        option = '<option>Select District</option>';
+                        Object.keys(districts).forEach(function(key) {
+                            option += '<option value="'+districts[key]['id']+'">'+districts[key]['name']+'</option>';
+                        });
+                        $('#district').html(option);
+                        $('#location').html('<option>Select District</option>');
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                }
+            );
+        });
+
+        $(document).on('change','#district', function(e){
+            e.preventDefault()
+            district = $(this).val();
+            $.ajax(
+                '{% url "agent:get_location" %}', 
+                {
+                    type: 'POST',
+                    data: { 
+                        district: district,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data, status, xhr) {
+                        locations = data['locations'];
+                        option = '<option>Select Location</option>';
+                        Object.keys(locations).forEach(function(key) {
+                            option += '<option value="'+locations[key]['id']+'">'+locations[key]['name']+'</option>';
+                        });
+                        $('#location').html(option);
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                }
+            );
+        });
+
+    });
+  </script>
+{% endblock scripts %}

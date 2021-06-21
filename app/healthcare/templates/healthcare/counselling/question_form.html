@@ -1,0 +1,62 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% load core_extras %}
+{% block title %} Question | ZenWellness {% endblock title %}
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'healthcare:question_list' %}">
+            Questions</a></li>
+            <li class="breadcrumb-item active">{{ form_title }}</li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">{{ form_title }}</h3>
+              </div>
+
+              <form role="form" action="{{ form_action }}" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Question</label>
+                    {{ form.question | add_class:"form-control" }}
+                  </div>
+                  <div class="form-group">
+                    <label>Question Type</label>
+                    {{ form.question_type | add_class:"form-control select2" }}
+                  </div>
+                  <div class="form-group">
+                    <label>Choices</label>
+                    {{ form.question_choices | add_class:"form-control select2" }}
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}

@@ -1,0 +1,119 @@
+<header id="js-header" class="u-header u-header--static u-shadow-v19">
+  <div class="u-header__section g-bg-white g-transition-0_3">
+    <nav class="js-mega-menu navbar navbar-expand-lg g-pa-0">
+      <div class="container">
+        <a class="navbar-brand g-pl-15 py-3" href="{% url 'website:landing' %}">
+          <!-- <img class="g-width-95" src="assets/img/logo/logo.png" alt="ZenWellness"> -->
+          ZenWellness
+        </a>
+
+        <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pos-abs g-top-10 g-right-0 g-pa-0 g-mt-2" type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+                aria-controls="navBar"
+                data-toggle="collapse"
+                data-target="#navBar">
+          <span class="hamburger hamburger--slider g-px-15">
+            <span class="hamburger-box">
+              <span class="hamburger-inner"></span>
+            </span>
+          </span>
+        </button>
+
+        <div id="navBar" class="collapse navbar-collapse align-items-center flex-sm-row">
+          <ul class="navbar-nav ml-auto g-pb-30 g-pb-0--lg">
+            <li class="nav-item g-mx-15 g-mx-3--lg g-mb-5 g-mb-0--lg">
+              <a href="{% url 'website:landing' %}" class="nav-link rounded g-color-primary--hover g-bg-transparent g-bg-main--hover g-font-weight-600 g-font-size-15 g-px-14 g-py-10" >
+                Home
+              </a>
+            </li>
+
+            <li class="nav-item g-mx-15 g-mx-3--lg g-mb-5 g-mb-0--lg">
+              <a class="nav-link rounded g-color-primary--hover g-bg-transparent g-bg-main--hover g-font-weight-600 g-font-size-15 g-px-14 g-py-10" 
+              href="#">
+                About 
+              </a>
+            </li>
+
+            <li class="nav-item hs-has-sub-menu g-mx-15 g-mx-3--lg g-mb-5 g-mb-0--lg">
+              <a id="nav-link--page" class="nav-link rounded g-color-primary--hover g-bg-transparent g-bg-main--hover g-font-weight-600 g-font-size-15 g-px-14 g-py-10" href="#"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  aria-controls="nav-submenu--page">
+                Our Services
+              </a>
+
+              <ul id="nav-submenu--page" class="hs-sub-menu list-unstyled u-shadow-v11 g-min-width-220 g-mt-18"
+                  aria-labelledby="nav-link--page">
+                <li class="dropdown-item">
+                  <a class="nav-link g-color-text g-font-weight-600" 
+                  href="{% url 'website:medicine' %}">Online Medicines</a>
+                </li>
+                <li class="dropdown-item">
+                  <a class="nav-link g-color-text g-font-weight-600" 
+                  href="#">Courses</a>
+                </li>
+                <li class="dropdown-item">
+                  <a class="nav-link g-color-text g-font-weight-600" 
+                  href="#">Residence</a>
+                </li>
+
+              </ul>
+            </li>
+            <li class="nav-item g-mx-15 g-mx-3--lg g-mb-5 g-mb-0--lg">
+              <a class="nav-link rounded g-color-primary--hover g-bg-transparent g-bg-main--hover g-font-weight-600 g-font-size-15 g-px-14 g-py-10" 
+              href="#">
+                Contact
+              </a>
+            </li>
+            {% if request.user.is_anonymous %}
+            <li class="nav-item g-mx-15 g-mx-3--lg g-mb-5 g-mb-0--lg">
+              <a class="nav-link rounded g-color-primary--hover g-bg-transparent g-bg-main--hover g-font-weight-600 g-font-size-15 g-px-14 g-py-10" 
+              href="{% url 'website:login' %}">
+                Sign In
+              </a>
+            </li>
+            <li class="nav-item g-mx-15 g-mx-3--lg g-mb-5 g-mb-0--lg">
+              <a class="nav-link rounded g-color-primary--hover g-bg-transparent g-bg-main--hover g-font-weight-600 g-font-size-15 g-px-14 g-py-10" 
+              href="#">
+                Register
+              </a>
+            </li>
+            {% else %}
+              <li class="nav-item g-mx-15 g-mx-3--lg g-mb-5 g-mb-0--lg">
+                <a class="nav-link rounded g-color-primary--hover g-bg-transparent g-bg-main--hover g-font-weight-600 g-font-size-15 g-px-14 g-py-10" 
+                href="{% url 'website:logout' %}">
+                  Sign Out
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <!-- End Navigation -->
+
+        <!-- Social Icons -->
+        <ul class="col-auto list-inline g-pos-abs g-right-0 g-pos-rel--lg g-top-minus-3 g-py-20 g-py-6--lg g-pr-5 g-mr-60 g-mr-0--lg ml-auto ml-lg-0 mb-0">
+          <li class="list-inline-item g-mx-0">
+            <a class="u-icon-v3 u-icon-size--xs g-bg-transparent g-bg-main--hover rounded" href="#"><i class="fa fa-facebook"></i></a>
+          </li>
+          <li class="list-inline-item g-mx-0">
+            <a class="u-icon-v3 u-icon-size--xs g-bg-transparent g-bg-main--hover rounded" href="#"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li class="list-inline-item g-mx-0">
+            <a class="u-icon-v3 u-icon-size--xs g-bg-transparent g-bg-main--hover rounded" href="#"><i class="fa fa-pinterest"></i></a>
+          </li>
+        </ul>
+        <!-- End Social Icons -->
+
+        <!-- <div class="col-auto g-hidden-md-down g-pr-0">
+          <div class="g-bg-main g-cursor-pointer g-px-25 g-py-20">
+            <span class="d-block g-color-primary g-font-size-11 mb-1">(0161) 347 8854</span>
+            <span class="d-block g-color-primary"><i class="mr-2 fa fa-phone"></i> Request a Call</span>
+          </div>
+        </div> -->
+
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- End Header -->

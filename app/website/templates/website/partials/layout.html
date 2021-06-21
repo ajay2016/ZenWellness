@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Zenwellness</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
+  <link rel="stylesheet" href="{% static 'website/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/icons/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/icon-line-pro/style.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/icon-hs/style.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/animate.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/dzsparallaxer/dzsparallaxer.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/dzsparallaxer/dzsscroller/scroller.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/dzsparallaxer/advancedscroller/plugin.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/slick/slick.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/jquery.fancybox.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/hs-megamenu/src/hs.megamenu.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/hamburgers.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'website/css/core.min.css' %}">
+
+  {% block styles %}
+    
+  {% endblock styles %}
+</head>
+<body>
+  <main>
+    {% include "website/partials/header.html" %}
+    {% block content %}
+      
+    {% endblock content %}
+  </main>
+    <script src="{% static 'website/js/jquery.min.js' %}"></script>
+    <script src="{% static 'website/js/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'website/js/popper.min.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'website/js/slick.js' %}"></script>
+    <script src="{% static 'website/js/hs.megamenu.js' %}"></script>
+    <script src="{% static 'website/js/dzsparallaxer.js' %}"></script>
+    <script src="{% static 'website/js/scroller.js' %}"></script>
+    <script src="{% static 'website/js/dzplugin.js' %}"></script>
+    <script src="{% static 'website/js/jquery.fancybox.min.js' %}"></script>
+    
+    <script src="{% static 'website/js/hs.core.js' %}"></script>
+    <script src="{% static 'website/js/hs.header.js' %}"></script>    
+    <script src="{% static 'website/js/hs.hamburgers.js' %}"></script>
+    <script src="{% static 'website/js/hs.dropdown.js' %}"></script>
+    <script src="{% static 'website/js/hs.popup.js' %}"></script>
+    <script src="{% static 'website/js/hs.carousel.js' %}"></script>
+    <script src="{% static 'website/js/hs.go-to.js' %}"></script>
+ <script>
+    $(document).on('ready', function () {
+        // initialization of header
+        $.HSCore.components.HSHeader.init($('#js-header'));
+        $.HSCore.helpers.HSHamburgers.init('.hamburger');
+
+        // initialization of HSMegaMenu component
+        $('.js-mega-menu').HSMegaMenu({
+          event: 'hover',
+          pageContainer: $('.container'),
+          breakpoint: 991
+        });
+
+        // initialization of HSDropdown component
+        $.HSCore.components.HSDropdown.init($('[data-dropdown-target]'), {
+          afterOpen: function () {
+            $(this).find('input[type="search"]').focus();
+          }
+        });
+
+        // initialization of popups
+        $.HSCore.components.HSPopup.init('.js-fancybox');
+
+        // initialization of carousel
+        $.HSCore.components.HSCarousel.init('.js-carousel');
+
+        // initialization of go to
+        $.HSCore.components.HSGoTo.init('.js-go-to');
+      });
+  </script>
+
+  {% block scripts %}
+    
+  {% endblock scripts %}
+</body>
+</html>

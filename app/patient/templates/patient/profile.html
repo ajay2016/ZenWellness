@@ -1,0 +1,203 @@
+{% extends "website/partials/layout.html" %}
+{% load static %}
+{% load core_extras %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap-datepicker.min.css' %}">
+{% endblock styles %}
+{% block content %}
+<section class="g-my-30">
+    <div class="container">
+    <ul class="u-list-inline">
+        <li class="list-inline-item g-mr-7">
+        <a class="u-link-v5 g-color-main g-color-primary--hover" href="{% url 'patient:dashboard' %}">
+        Dashbaord</a>
+        <i class="fa fa-angle-right g-ml-7"></i>
+        </li>
+        <li class="list-inline-item g-color-primary">
+            <span>Profile</span>
+          </li>
+    </ul>
+    </div>
+</section>
+<section class="g-mb-100">
+    <div class="container">
+        <div class="row">
+            {% include "patient/partials/navigation.html" %}
+
+        <!-- Profile Content -->
+        <div class="col-lg-9">
+            {% include "patient/partials/flash.html" %}
+            <!-- Nav tabs -->
+            <ul class="nav nav-justified u-nav-v1-1 u-nav-primary g-brd-bottom--md g-brd-bottom-2 g-brd-primary g-mb-20" role="tablist" data-target="nav-1-1-default-hor-left-underline" data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-primary g-mb-20">
+              <li class="nav-item">
+                <a class="nav-link g-py-10 active" data-toggle="tab" href="#nav-1-0-default-hor-left-underline--1" role="tab">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link g-py-10" data-toggle="tab" href="#nav-1-1-default-hor-left-underline--1" role="tab">Edit Profile</a>
+              </li>
+            </ul>
+            <!-- End Nav tabs -->
+
+            <!-- Tab panes -->
+            <div id="nav-1-1-default-hor-left-underline" class="tab-content">
+              <!-- View Profile -->
+              <div class="tab-pane fade show active" id="nav-1-0-default-hor-left-underline--1" role="tabpanel" data-parent="#nav-1-0-default-hor-left-underline">
+                <h2 class="h4 g-font-weight-300">Your profile information</h2>
+
+                <ul class="list-unstyled g-mb-30">
+
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">
+                      Full Name</strong>
+                      <span class="align-top">
+                        {{ profile.designation }}.
+                        {{ profile.first_name }}
+                        {% if profile.middle_name %}
+                            {{ profile.middle_name }}
+                        {% endif %}
+                        {{ profile.last_name }}
+                      </span>
+                    </div>
+                  </li>
+
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">
+                      Gender</strong>
+                      <span class="align-top">
+                        {% if profile.gender == 'M' %}
+                        <span class="u-label g-font-size-11 g-bg-green g-rounded-20 g-px-8">Male</span>
+                        {% else %}
+                        <span class="u-label g-font-size-11 g-bg-pink g-rounded-20 g-px-8">Female</span>
+                        {% endif %}
+                        </span>
+                    </div>
+                  </li>
+
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">
+                      Date Of Birth</strong>
+                      <span class="align-top">
+                        {%if profile.date_of_birth %}
+                            {{ profile.date_of_birth  }}
+                        {% else %}
+                            <span class="u-label g-font-size-11 g-bg-red g-rounded-20 g-px-8">Not available</span>
+                        {% endif %}
+                      </span>
+                    </div>
+                  </li>
+
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">
+                      Permanent Address</strong>
+                      <span class="align-top">
+                        {%if profile.permanent_address %}
+                            {{ profile.permanent_address  }},
+                            {{ profile.permanent_address.district  }}
+                        {% else %}
+                            <span class="u-label g-font-size-11 g-bg-red g-rounded-20 g-px-8">Not available</span>
+                        {% endif %}
+                      </span>
+                    </div>
+                  </li>
+              </div>
+              <!-- End View Profile -->
+
+
+              <!-- Edit Profile -->
+              <div class="tab-pane fade show" id="nav-1-1-default-hor-left-underline--1" role="tabpanel" data-parent="#nav-1-1-default-hor-left-underline">
+                <h2 class="h4 g-font-weight-300">Manage your profile information</h2>
+                <p>Below are name, gender, address and more on file for your account.</p>
+                <form autocomplete="off" action="{% url 'patient:profile' %}" method="POST">
+                    {% csrf_token %}
+                  <div class="form-group row g-mb-25">
+                    <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">
+                    First Name</label>
+                    <div class="col-sm-9">
+                      <div class="input-group g-brd-primary--focus">
+                        {{ form.first_name | add_class:"form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" }}
+                        <div class="input-group-append">
+                          <span class="input-group-text g-bg-white g-color-gray-light-v1 rounded-0"><i class="icon-lock"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row g-mb-25">
+                    <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">
+                    Middle Name</label>
+                    <div class="col-sm-9">
+                      <div class="input-group g-brd-primary--focus">
+                        {{ form.middle_name | add_class:"form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" }}
+                        <div class="input-group-append">
+                          <span class="input-group-text g-bg-white g-color-gray-light-v1 rounded-0"><i class="icon-lock"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row g-mb-25">
+                    <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">
+                    Last Name</label>
+                    <div class="col-sm-9">
+                      <div class="input-group g-brd-primary--focus">
+                        {{ form.last_name | add_class:"form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" }}
+                        <div class="input-group-append">
+                          <span class="input-group-text g-bg-white g-color-gray-light-v1 rounded-0"><i class="icon-lock"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row g-mb-25">
+                    <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">
+                    Gender</label>
+                    <div class="col-sm-9">
+                      <div class="input-group g-brd-primary--focus">
+                        {{ form.gender | add_class:"form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" }}
+                        <div class="input-group-append">
+                          <span class="input-group-text g-bg-white g-color-gray-light-v1 rounded-0"><i class="icon-lock"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row g-mb-25">
+                    <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">
+                    Date Of Birth</label>
+                    <div class="col-sm-9">
+                      <div class="input-group g-brd-primary--focus">
+                        {{ form.date_of_birth | add_class:"datepicker form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" }}
+                        <div class="input-group-append">
+                          <span class="input-group-text g-bg-white g-color-gray-light-v1 rounded-0"><i class="icon-lock"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="g-brd-gray-light-v4 g-my-25">
+
+                  <div class="text-sm-right">
+                    <button class="btn u-btn-primary rounded-0 g-py-12 g-px-25">
+                        Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- End Edit Profile -->
+            </div>
+            <!-- End Tab panes -->
+          </div>
+        <!-- End Profile Content -->
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'core/js/bootstrap-datepicker.min.js' %}"></script>
+<script>
+    $('.datepicker').datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd'
+    });
+</script>
+{% endblock scripts %}

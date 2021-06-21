@@ -1,0 +1,186 @@
+{% extends "website/partials/layout.html" %}
+{% load static %}
+
+{% block styles %}
+  <style>
+    .top-medicine{
+        background-image: url("{% static 'website/img-temp/1920x800/img27.jpg' %}");
+        color: white;
+    }
+    .custombox-content>* {
+        max-width: 40% !important;
+        max-height: 95% !important;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'website/vendor/custombox/custombox.min.css' %}">
+
+{% endblock styles %}
+
+{% block content %}
+<!-- Page Title -->
+<section class="top-medicine">
+
+    <div class="container text-center g-py-100--md g-py-80">
+    <h2 class="h1 text-uppercase g-font-weight-300 g-mb-30">Online Medicines</h2>
+
+    <!-- Search Form -->
+    <form class="g-width-60x--md mx-auto">
+        <div class="form-group g-mb-20">
+        <div class="input-group u-shadow-v21 rounded g-mb-15">
+            <input class="form-control form-control-md g-brd-white g-font-size-16 border-right-0 pr-0 g-py-15" 
+            type="text"
+             placeholder="Search Medicine">
+            <div class="input-group-addon d-flex align-items-center g-bg-white g-brd-white g-color-gray-light-v1 g-pa-2">
+            <button class="btn u-btn-primary g-font-size-16 g-py-15 g-px-20" type="submit">
+                <i class="fa fa-search g-pos-rel g-top-1"></i>
+            </button>
+            </div>
+        </div>
+        <small class="form-text g-opacity-0_8 g-font-size-default">Search any medicines, category, brand, manufacturer and so on here.</small>
+        </div>
+    </form>
+    <!-- End Search Form -->
+    </div>
+</section>
+    <!-- Page Title -->
+<section class="g-pt-50 g-pb-90">
+    <div class="container">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 g-pr-40--lg g-mb-50 g-mb-0--lg">
+        <!-- Categories -->
+        <h2 class="h5 text-uppercase g-color-gray-dark-v1">Categories</h2>
+        <hr class="g-brd-gray-light-v4 g-my-15">
+        <ul class="list-unstyled g-mb-40">
+            <li class="my-3">
+            <a class="d-flex justify-content-between u-link-v5 g-color-gray-dark-v1 g-parent" href="#!">
+
+                Design <span class="d-inline-block g-font-size-12 g-min-width-40 g-brd-around g-color-gray-dark-v5 g-brd-gray-light-v3 text-center rounded g-px-10 g-py-3">99</span>
+
+                </a>
+            </li>
+            <li class="my-3">
+            <a class="d-flex justify-content-between u-link-v5 g-color-gray-dark-v1" href="#!">
+
+                Development <span class="d-inline-block g-font-size-12 g-min-width-40 g-brd-around g-color-gray-dark-v5 g-brd-gray-light-v3 g-bg-primary--parent-hover text-center rounded g-px-10 g-py-3">5</span>
+
+                </a>
+            </li>
+        </ul>
+        <!-- End Categories -->
+        </div>
+        <!-- End Sidebar -->
+
+        <!-- Search Results -->
+       <div class="col-md-9 order-md-2">
+            <div class="g-pl-15--lg">
+            {% for product in products %}
+              <!-- Products -->
+              <div class="g-brd-bottom g-brd-gray-light-v4">
+                <div class="row g-pt-30">
+                  <div class="col-6 col-sm-5 col-lg-4 g-mb-30">
+                    <figure class="g-pos-rel">
+                    {% if product.image %}
+                      <img class="img-fluid" src="{{ product.image.url }}" alt="Image Description">
+                    {% endif %}
+                    </figure>
+                  </div>
+
+                  <div class="col-6 col-sm-7 col-lg-8 g-mb-15">
+                    <!-- Product Info -->
+                    <div class="g-mb-30">
+                      <h4 class="h5 g-color-black mb-0 mt-1">
+                        <a class="u-link-v5 g-color-black g-color-primary--hover" href="#!">
+                          {{ product.name }}
+                        </a>
+                      </h4>
+                      <a class="d-inline-block g-color-gray-dark-v5 g-font-size-13 mb-2" href="#!">
+                      {{ product.discipline }}</a>
+                      <span class="d-block g-color-black g-font-size-20 mb-4">
+                        {{ product.price }}
+                      </span>
+                      <p>
+                        {{ product.remark }}
+                      </p>
+                    </div>
+                    <!-- End Product Info -->
+
+                    <a class="btn u-btn-primary g-font-size-12 text-uppercase g-py-10 g-px-20"
+                    href="#location" data-modal-target="#location" data-modal-effect="slide">
+                      Add to Cart
+                      <i class="ml-2 icon-finance-100 u-line-icon-pro"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- End Products -->
+             {% endfor %}
+             <!-- Pagination -->
+              <nav class="g-mb-100" aria-label="Page Navigation">
+                <ul class="list-inline mb-0">
+                  <li class="list-inline-item hidden-down">
+                    <a class="active u-pagination-v1__item g-width-30 g-height-30 g-brd-gray-light-v3 g-brd-primary--active g-color-white g-bg-primary--active g-font-size-12 rounded-circle g-pa-5" href="#!">1</a>
+                  </li>
+                  <li class="list-inline-item hidden-down">
+                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#!">2</a>
+                  </li>
+                  <li class="list-inline-item g-hidden-xs-down">
+                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#!">3</a>
+                  </li>
+                  <li class="list-inline-item hidden-down">
+                    <span class="g-width-30 g-height-30 g-color-gray-dark-v5 g-font-size-12 rounded-circle g-pa-5">...</span>
+                  </li>
+                  <li class="list-inline-item g-hidden-xs-down">
+                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#!">15</a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-brd-gray-light-v3 g-brd-primary--hover g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5 g-ml-15" href="#!" aria-label="Next">
+                      <span aria-hidden="true">
+                        <i class="fa fa-angle-right"></i>
+                      </span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                  <li class="list-inline-item float-right">
+                    <span class="u-pagination-v1__item-info g-color-gray-dark-v4 g-font-size-12 g-pa-5">Page 1 of 15</span>
+                  </li>
+                </ul>
+              </nav>
+              <!-- End Pagination -->
+            </div>
+          </div>
+    </div>
+    </div>
+</section>
+
+
+<!-- modal window -->
+<div id="location" class="text-left g-max-width-600 g-bg-white g-overflow-y-auto g-pa-20" style="display: none;">
+  <button type="button" class="close" onclick="Custombox.modal.close();">
+    <i class="hs-icon hs-icon-close"></i>
+  </button>
+  <h4 class="g-mb-20">Select Location</h4>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+    specimen book.</p>
+  <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+    recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+</div>
+<!-- End modal window -->
+
+{% endblock content %}
+
+{% block scripts %}
+  <!-- JS Implementing Plugins -->
+<script  src="{% static 'website/vendor/custombox/custombox.min.js' %}"></script>
+
+<!-- JS Unify -->
+<script  src="{% static 'website/js/hs.modal-window.js' %}"></script>
+
+<!-- JS Plugins Init. -->
+<script >
+  $(document).on('ready', function () {
+    // initialization of popups
+    $.HSCore.components.HSModalWindow.init('[data-modal-target]');
+  });
+</script>
+{% endblock scripts %}

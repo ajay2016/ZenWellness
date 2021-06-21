@@ -1,0 +1,124 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% load core_extras %}
+{% block title %} Register Lab Agent | ZenWellness {% endblock title %}
+{% block styles %}
+  <style>
+    .upload_image{
+        width: 120px;
+        height: 120px;
+    }
+    .errorlist{
+        list-style-type: none;
+        color: red;
+    }
+  </style>
+{% endblock styles %}
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'healthcare:lab_agents' lab.slug %}">Lab Agents</a></li>
+            <li class="breadcrumb-item active">Register Lab Agent</li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Register New Lab Agent</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form enctype="multipart/form-data" role="form" action="{% url 'healthcare:lab_agents_add' lab.slug %}" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Designation</label>
+                                {{ form.designation | add_class:"form-control select2" }}
+                                {{ form.designation.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">First Name</label>
+                                {{ form.first_name | add_class:"form-control" }}
+                                {{ form.first_name.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Middle Name</label>
+                                {{ form.middle_name | add_class:"form-control" }}
+                                {{ form.middle_name.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Last Name</label>
+                                {{ form.last_name | add_class:"form-control" }}
+                                {{ form.last_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Lab</label>
+                                {{ form.lab | add_class:"form-control" }}
+                                {{ form.lab.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Gender</label>
+                                {{ form.gender | add_class:"form-control" }}
+                                {{ form.gender.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Phone Number</label>
+                                {{ form.phone_number | add_class:"form-control" }}
+                                {{ form.phone_number.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Password</label>
+                                {{ form.password | add_class:"form-control" }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}

@@ -1,0 +1,145 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% load core_extras %}
+{% block title %} Update Agent Profile | ZenWellness {% endblock title %}
+{% block styles %}
+  <style>
+    .upload_image{
+        width: 120px;
+        height: 120px;
+    }
+    .errorlist{
+        list-style-type: none;
+        color: red;
+    }
+  </style>
+{% endblock styles %}
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'core:agent_list' %}">Agents</a></li>
+            <li class="breadcrumb-item active">Update Agent Profile</li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Agent Profile</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form enctype="multipart/form-data" role="form" action="{% url 'core:agent_profile_update' profile.pk %}" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Designation</label>
+                                {{ form.designation | add_class:"form-control select2" }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">First Name</label>
+                                {{ form.first_name | add_class:"form-control" }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Middle Name</label>
+                                {{ form.middle_name | add_class:"form-control" }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Last Name</label>
+                                {{ form.last_name | add_class:"form-control" }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Profile Pic</label>
+                                <br/>
+                                {{ form.profile_pic | add_class:"form-control upload_profile_pic" }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Location</label>
+                                {{ form.location | add_class:"form-control select2" }}
+                                {{ form.location.errors }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Permanent Address</label>
+                                <br/>
+                                {{ form.permanent_address | add_class:"form-control select2" }}
+                                {{ form.permanent_address.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Remark</label>
+                                {{ form.remark | add_class:"form-control" }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}
+
+{% block scripts %}
+  <script>
+    $(".upload_profile_pic").change(function(e) {
+
+    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+        var file = e.originalEvent.srcElement.files[i];
+        var img = document.createElement("img");
+        var att = document.createAttribute("class");
+        att.value = "upload_image"; 
+        img.setAttributeNode(att);
+        var reader = new FileReader();
+        reader.onloadend = function() {
+             img.src = reader.result;
+        }
+        reader.readAsDataURL(file);
+        $(".upload_profile_pic").after(img);
+    }
+});
+  </script>
+{% endblock scripts %}

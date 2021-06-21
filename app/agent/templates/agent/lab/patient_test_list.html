@@ -1,0 +1,104 @@
+{% extends "website/auth/layout.html" %}
+
+{% block styles %}
+  <style>
+    .doc_block{
+        cursor: pointer;
+        transition: transform .2s;
+    }
+    .doc_block:hover{
+        transform: scale(0.9);
+    }
+    a:hover{
+        text-decoration: none;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+               <div class="row">
+                  <div class="col-sm-6 mb-4 mb-xl-0">
+                      <div class="d-lg-flex align-items-center">
+                          <div>
+                              <h3 class="text-dark font-weight-bold mb-2">Patients Lab Tests Informations 
+                              - {{ profile.first_name }}
+                                {% if profile.middle_name %}{{ profile.middle_name }} {% endif %}
+                              {{ profile.last_name }}</h3>
+                          </div>
+                          <div class="ml-lg-5 d-lg-flex d-none">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="d-flex align-items-center justify-content-md-end">
+                          <div class="pr-1 mb-3 mb-xl-0">
+                            <a href="{% url 'agent:patient_lab_add' profile.pk %}">
+                              <button class="btn btn-sm btn-primary">
+                                Schedule A Test
+                              </button>
+                            </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+               <br/>
+            <div class="card">
+                <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">S.N</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Test Name</th>
+                        <th scope="col">Lab Name</th>
+                        <th scope="col">Home Service</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Address Detail</th>
+                        <th scope="col">Requested Date</th>
+                        <th scope="col">Delivery Code</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for test in tests %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ test.assigned_date }}</td>
+                                <td>{{ test.test }}</td>
+                                <td>{{ test.lab }}</td>
+                                <td>
+                                    {% if test.home_service %}
+                                        Required
+                                    {% else %}
+                                        Not Required
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ test.location.zone }} {{ test.location.district }} {{ test.location }}
+                                </td>
+                                <td>
+                                    {{ test.address_detail }}
+                                </td>
+                                <td>
+                                    {{ test.requested_date | date:"M d, Y" }}
+                                </td>
+                                <td>
+                                    {{ test.delivery_code }}
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}

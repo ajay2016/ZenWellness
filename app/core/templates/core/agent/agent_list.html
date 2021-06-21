@@ -1,0 +1,95 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% block title %} Agents | ZenWellness {% endblock title %}
+
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Agents</h1>
+          </div>
+          <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+              <li class="breadcrumb-item active">Agents</li>
+          </ol>
+          <br/>
+          <br/>
+          <a href="{% url 'core:agent_add' %}"><button class="btn btn-primary btn-sm float-right">
+          <i class="fas fa-plus"></i> Add New Agent</button></a>
+          </div>
+      </div>
+      </div>
+</section>
+<section class="content">
+  <div class="card card-solid">
+    <div class="card-body">
+    <div class="row">
+    {% for agent in agents %} 
+    
+        <div class="col-sm-4">
+        <div class="card bg-light">
+        <div class="card-header text-muted border-bottom-0">
+          {{ agent.location }}
+        </div>
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col-7">
+                <h2 class="lead">
+                <b>{{ agent.designation }}. {{ agent.first_name }} 
+                {% if agent.middle_name %} {{ agent.middle_name }} {% endif %}
+                {{ agent.last_name }}</b>
+                </h2>
+              <ul class="ml-4 mb-0 fa-ul text-muted">
+                <li class="small"><span class="fa-li">
+                <i class="fas fa-lg fa-building"></i></span>Address: {{ agent.permanent_address }}</li>
+                <li class="small"><span class="fa-li">
+                <i class="fas fa-lg fa-phone"></i></span> Phone: {{ agent.user.phone_number }}</li>
+                <li class="small"><span class="fa-li">
+                <i class="fas fa-lg fa-user"></i></span> Status: 
+                  {% if agent.user.is_active %}
+                    <span class="right badge badge-success">Active</span>
+                  {% else %}
+                    <span class="right badge badge-danger">In-Active</span>
+                  {% endif %}
+                </li>       
+              </ul>
+            </div>
+            <div class="col-5 text-center">
+              {% if agent.profile_pic %}
+              <img src="{{ agent.profile_pic.url }}" alt="" class="img-circle img-fluid">
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+        <div class="text-right">
+        <a href="{% url 'core:agent_profile_update' agent.pk %}" class="btn btn-sm bg-teal">
+        <i class="fas fa-id-card"></i>
+        </a>
+        <a href="{% url 'core:agent_password_change' agent.user.pk %}" 
+        class="btn btn-sm bg-blue">
+        <i class="fas fa-key"></i>
+        </a>
+        <a href="{% url 'core:agent_warehouse' agent.pk %}" 
+        class="btn btn-sm bg-red">
+        <i class="fab fas fa-warehouse"></i>
+        </a>
+        </div>
+        </div>
+        </div>
+        </div>
+      
+    {% endfor %}
+    </div>
+    </div>
+  </div>
+</section>
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% load core_extras %}
+{% block title %} Doctor Degree | ZenWellness {% endblock title %}
+{% block styles %}
+  <style>
+    .upload_image{
+        width: 120px;
+        height: 120px;
+    }
+    .errorlist{
+        list-style-type: none;
+        color: red;
+    }
+  </style>
+{% endblock styles %}
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'healthcare:doctor_list' %}">Doctors</a></li>
+            <li class="breadcrumb-item active">{{ form_title }}</li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">{{ form_title }}</h3>
+              </div>
+
+              <form role="form" action="{{ form_action }}" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Degree</label>
+                    {{ form.degree | add_class:"form-control select2" }}
+                    {{ form.degree.errors }}
+                  </div>
+                  <div class="form-group">
+                    <label>University</label>
+                    {{ form.university | add_class:"form-control select2 uniselect" }}
+                    {{ form.university.errors }}
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}
+
+{% block scripts %}
+  <script>
+    $('#id_degree').on('change', function(){
+        degree = $(this).val();
+        $.ajax({
+            url: url = "{% url 'core:retrieve_deg_via_uni' %}",
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'degree':degree},
+            method: 'POST',
+            success: function (result) {
+                $(".uniselect").select2({
+                    placeholder: "Select University",
+                    data: result
+                });
+            },
+            error: function(result){
+                $(".uniselect").empty().trigger('change')
+            }
+        });
+    });
+    
+  </script>
+{% endblock scripts %}

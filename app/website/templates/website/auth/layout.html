@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}{% endblock title %}</title>
+
+  <link rel="stylesheet" href="{% static 'userauth/vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'userauth/vendors/base/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+
+  <link rel="stylesheet" href="{% static 'userauth/css/style.css' %}">
+        <style>
+        .form-control{
+          border: 1px solid #c5c7c7;
+        }
+        select.form-control{
+          padding: .7995rem .75rem;
+          border: 1px solid #c5c7c7;
+        }
+      </style>
+  {% block styles %}
+
+  {% endblock styles %}
+</head>
+
+<body>
+  <div class="container-scroller">
+    {% block content %}
+      
+    {% endblock content %}
+
+  <footer class="footer">
+    <div class="footer-wrap">
+        <div class="w-100 clearfix">
+          <span class="d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019 <a href="{% url 'website:landing' %}" target="_blank">Zen-Wellness</a>. All rights reserved.</span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart-outline"></i></span>
+        </div>
+    </div>
+  </footer>
+  </div>
+  </div>
+  </div>
+  
+  <!-- container-scroller -->
+    <script src="{% static 'userauth/vendors/base/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'userauth/js/template.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
+    <script>
+    {% if messages %}
+          {% for message in messages %}
+            Swal.fire({
+              text: '{{ message }} ',
+              type: '{{ message.tags }}',
+            });
+          {% endfor %}
+    {% endif %}
+
+    </script>
+    {% block scripts %}
+      
+    {% endblock scripts %}
+</body>
+
+</html>

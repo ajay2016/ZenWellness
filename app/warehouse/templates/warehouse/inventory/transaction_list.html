@@ -1,0 +1,143 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% block title %} Warehouse Transactions Lists | ZenWellness {% endblock title %}
+
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Warehouse Transactions</h1>
+          </div>
+          <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+              <li class="breadcrumb-item active">Warehouse-Transactions</li>
+          </ol>
+          </div>
+      </div>
+      </div>
+</section>
+<section class="content">
+  <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Warehouse - {{ warehouse_name }} </h3>
+            <div class="card-tools">
+              <a href="{% url 'warehouse:warehouse_transaction_add' warehouse_slug %}">
+                <button class="btn btn-sm btn-success">
+                <i class="fa fa-plus"></i> Add Transaction</button>
+              </a>
+            </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped projects">
+              <thead>
+                  <tr>
+                      <th style="width: 1%">
+                          #
+                      </th>
+                      <th style="width: 5%">
+                          Product
+                      </th>
+                      <th style="width: 5%">
+                          User
+                      </th>
+                      <th style="width: 20%">
+                          Stock IN/OUT
+                      </th>
+                      <th style="width: 5%">
+                          Rate
+                      </th>
+                      <th style="width: 5%">
+                          Quantity
+                      </th>
+                      <th style="width: 5%">
+                          Discount
+                      </th>
+                      <th style="width: 10%">
+                          Brand
+                      </th>
+                      <th style="width: 10%">
+                          Company
+                      </th>
+                      <th style="width: 30%">
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for transaction in transactions %}
+                  <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ transaction.product }}</td>
+                      <td>{{ transaction.user }}</td>
+                      <td>
+                        {% if transaction.transaction_type == 'I' %}
+                            <span class="badge bg-success">
+                              Stock In
+                            </span>
+                          {% else %}
+                            <span class="badge bg-danger">
+                              Stock Out
+                            </span>
+                          {% endif %}
+                      </td>
+                      <td>{{ transaction.rate }}</td>
+                      <td>{{ transaction.quantity }}</td>
+                      <td>{{ transaction.discount }}</td>
+                      <td>{{ transaction.brand }}</td>
+                      <td>{{ transaction.company }}</td>
+                      <td class="project-actions text-right">
+                          <a class="btn btn-warning btn-sm" 
+                          href="{% url 'warehouse:warehouse_transaction_update' warehouse_slug transaction.pk %}">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                              Edit
+                          </a>
+                          <a class="btn btn-danger btn-sm delete_btn" 
+                          href="{% url 'warehouse:warehouse_transaction_delete' warehouse_slug transaction.pk %}">
+                              <i class="fas fa-trash">
+                              </i>
+                              Delete
+                          </a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+        </div>
+  </div>
+</section>
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}
+{% block scripts %}
+  <script>
+    $('.delete_btn').on('click', function(e){
+      e.preventDefault();
+      let url = $(this).attr('href');
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          window.location.href = url;
+        }else{
+          Swal.fire(
+            'Cancelled!',
+            'Deletion Process Stopped.',
+            'error'
+          )          
+        }
+      });
+    })
+  </script>
+{% endblock scripts %}

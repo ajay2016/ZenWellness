@@ -1,0 +1,117 @@
+{% extends "website/auth/layout.html" %}
+
+{% block styles %}
+  <style>
+    .doc_block{
+        cursor: pointer;
+        transition: transform .2s;
+    }
+    .doc_block:hover{
+        transform: scale(0.9);
+    }
+    a:hover{
+        text-decoration: none;
+    }
+    .table td img {
+      width: 60px;
+      height: 60px;
+      border-radius: 100%;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+    {% include "agent/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-6 mb-4 mb-xl-0">
+                    <div class="d-lg-flex align-items-center">
+                        <div>
+                            <h3 class="text-dark font-weight-bold mb-2">Patients</h3>
+                        </div>
+                        <div class="ml-lg-5 d-lg-flex d-none">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center justify-content-md-end">
+                        <div class="pr-1 mb-3 mb-xl-0">
+                            <a href="{% url 'agent:add_patient' %}">
+                                <button type="button" class="btn btn-outline-inverse-info btn-icon-text">
+                                    Add Patient
+                                    <i class="mdi mdi-account-plus btn-icon-append"></i>                          
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>S.N</th>
+                          <th>First Name</th>
+                          <th>Middle Name</th>
+                          <th>Last Name</th>
+                          <th>Profile Pic</th>
+                          <th>Date Of Birth</th>
+                          <th>Address</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for patient in patients %}
+                          <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ patient.first_name }}</td>
+                            <td>
+                              {% if patient.middle_name %}
+                                {{ patient.middle_name }}
+                              {% else %}
+
+                              {% endif %}
+                            </td>
+                            <td>{{ patient.last_name }}</td>
+                            <td>
+                                {% if patient.profile_pic %}
+                                  <img src="{{ patient.profile_pic.url }}">
+                                {% endif %}
+                            </td>
+                            <td>{{ patient.date_of_birth }}</td>
+                            <td>
+                              {{ patient.permanent_address }},
+                              {{ patient.permanent_address.district }}
+                            </td>
+                            <td>
+                              <a href="{% url 'agent:patient_counselling_list' patient.pk %}">
+                                <button class="btn btn-sm btn-primary">
+                                    Counselling Forms
+                                </button>
+                              </a>
+                              <a href="{% url 'agent:update_patient' patient.pk %}">
+                                <button class="btn btn-sm btn-success">
+                                    Patient Profile
+                                </button>
+                              </a>
+                              <a href="{% url 'agent:patient_lab_list' patient.pk %}">
+                                <button class="btn btn-sm btn-warning">
+                                    Lab Details
+                                </button>
+                              </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}

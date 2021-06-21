@@ -1,0 +1,8 @@
+ONLINE_USER = 'O'
+STAFF = 'S'
+AGENT = 'A'
+DOCTOR = 'D'
+PATIENT = 'P'
+ACTIVE = 'A'
+INACTIVE = 'IA'
+LAB = 'L'

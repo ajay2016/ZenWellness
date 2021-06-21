@@ -1,0 +1,73 @@
+{% extends "core/admin/partials/admin_layout.html" %}
+{% block title %} Agents Warehouse | ZenWellness {% endblock title %}
+
+{% block content %}
+<!-- Content Header -->
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Warehouses Of Agent</h1>
+          </div>
+          <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'core:admin_dashboard' %}">Dashboard</a></li>
+              <li class="breadcrumb-item active">Agent-Warehouses</li>
+          </ol>
+          <br/>
+          <br/>
+          <a href="{% url 'core:agent_warehouse_add' agent.pk %}"><button class="btn btn-primary btn-sm float-right">
+          <i class="fas fa-plus"></i>Assign New Warehouse</button></a>
+          </div>
+      </div>
+      </div>
+</section>
+<section class="content">
+  <div class="card card-solid">
+    <div class="card-body">
+    <div class="row">
+     <table class="table table-striped projects">
+              <thead>
+                  <tr>
+                      <th style="width: 2%">
+                          #
+                      </th>
+                      <th style="width: 15%">
+                          Name
+                      </th>
+                      <th style="width: 10%">
+                          Discipline
+                      </th>
+                      <th style="width: 55%">
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for warehouse in agent.warehouse.all %}
+                  <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ warehouse.name }}</td>
+                      <td>{{ warehouse.discipline }}</td>
+                      <td class="project-actions text-right">
+                          <a class="btn btn-danger btn-sm delete_btn" 
+                          href="">
+                              <i class="fas fa-trash">
+                              </i>
+                              Delete
+                          </a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+    </div>
+    </div>
+  </div>
+</section>
+<!-- Main content -->
+<section class="content">
+
+
+</section>
+<!-- /.content -->
+{% endblock content %}

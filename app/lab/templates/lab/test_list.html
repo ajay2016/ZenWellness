@@ -1,0 +1,84 @@
+{% extends "website/auth/layout.html" %}
+
+{% block styles %}
+  <style>
+    .warehouse_block{
+        cursor: pointer;
+        transition: transform .2s;
+    }
+    .warehouse_block:hover{
+        transform: scale(0.9);
+    }
+    #product_badge{
+        font-size: 12px;
+    }
+    #discipline_name{
+        font-size: 0.80rem;
+    }
+    a:hover{
+        text-decoration: none;
+    }
+  </style>
+{% endblock styles %}
+
+{% block content %}
+    {% include "lab/partials/navigation.html" %}
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+        <div class="row">
+                <div class="col-sm-6 mb-4 mb-xl-0">
+                    <div class="d-lg-flex align-items-center">
+                        <div>
+                            <h3 class="text-dark font-weight-bold mb-2">Tests</h3>
+                        </div>
+                        <div class="ml-lg-5 d-lg-flex d-none">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center justify-content-md-end">
+                        <div class="pr-1 mb-3 mb-xl-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="card">
+                <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">S.N</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Home Service</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for test in tests%}
+                        <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ test.name }}</td>
+                          <td>
+                              {% if test.home_service %}
+                                  Available
+                              {% else %}
+                                Not Available
+                              {% endif %}
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-primary">
+                            View Patients</button>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+      </div>
+        <!-- end of content-wrapper -->
+{% endblock content %}

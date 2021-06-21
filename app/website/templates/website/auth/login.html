@@ -1,0 +1,58 @@
+{% extends "website/partials/layout.html" %}
+{% load static %}
+{% load core_extras %}
+{% block content %}
+
+ <!-- Login -->
+    <section class="g-bg-gray-light-v5">
+      <div class="container g-py-100">
+        <div class="row justify-content-center">
+          <div class="col-sm-8 col-lg-5">
+            <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+              <header class="text-center mb-4">
+                <h2 class="h2 g-color-black g-font-weight-600">Login</h2>
+                 {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.extra_tags }} alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong> 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+              </header>
+
+              <!-- Form -->
+              <form class="g-py-15" method="POST" action="{% url 'website:login' %}">
+              {% csrf_token %}
+
+                <div class="mb-4">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Phone Number:</label>
+                {{ form.phone_number | add_class:"form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" }}
+                </div>
+
+                <div class="g-mb-35">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Password:</label>
+                    {{ form.password | add_class:"form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15 mb-3" }}
+                </div>
+
+                <div class="mb-4">
+                  <button class="btn btn-md btn-block u-btn-primary 
+                  rounded g-py-13" type="submit">Login</button>
+                </div>
+              </form>
+              <!-- End Form -->
+
+              <footer class="text-center">
+                <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Don't have an account? <a class="g-font-weight-600" href="page-signup-2.html">signup</a>
+                </p>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Login -->
+
+{% endblock content %}

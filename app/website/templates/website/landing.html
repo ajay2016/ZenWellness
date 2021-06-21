@@ -1,0 +1,54 @@
+{% extends "website/partials/layout.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Promo Block -->
+<div class="dzsparallaxer auto-init height-is-based-on-content use-loading mode-scroll loaded dzsprx-readyall" data-options='{direction: "reverse", settings_mode_oneelement_max_offset: "150"}'>
+<div class="divimage dzsparallaxer--target w-100 g-bg-cover g-bg-black-opacity-0_3--after" style="height: 120%; background-image: url(assets/img-temp/1920x1080/img1.jpg);"></div>
+
+<div class="container g-pt-170">
+    <div class="row justify-content-between align-items-center">
+    <div class="col-md-6 col-lg-7 g-mb-90">
+        <!-- Content Info -->
+        <div class="mb-5">
+        <h1 class="g-color-white g-font-weight-600 g-font-size-50 mb-3">Fast. Flexible. Leaders.</h1>
+        <p class="g-color-white g-font-size-18 g-line-height-2">
+         Medical Services You Can Trust. Zen Wellness Center was established as a joint venture between like-minded entrepreneurs and health professionals for providing service in the field of cardiology and allied medicine.
+        </p>
+        </div>
+        <a href="" class="btn u-btn-primary g-brd-main--hover g-bg-main--hover g-font-weight-600 g-font-size-12 text-uppercase g-px-25 g-py-13 mr-3">
+        Our Services
+        <i class="g-pos-rel g-top-minus-1 ml-2 fa fa-angle-right"></i>
+        </a>
+        <a href="" class="btn u-btn-black g-brd-main g-brd-primary--hover g-bg-main g-bg-primary--hover g-font-weight-600 g-font-size-12 text-uppercase g-px-25 g-py-13">
+        Online Medicine
+        <i class="g-pos-rel g-top-minus-1 ml-2 fa fa-angle-right"></i>
+        </a>
+        <!-- End Content Info -->
+    </div>
+
+    <div class="col-md-6 col-lg-4 g-mb-90">
+        <!-- Join Form -->
+        <form class="g-bg-white rounded g-px-30 g-py-40">
+        <div class="text-center">
+            <h2 class="h3 g-font-weight-600 g-mb-35">Make An Appointment</h2>
+        </div>
+
+        <input class="form-control rounded g-px-20 g-py-12 mb-3" type="text" placeholder="Your Full Name">
+        <input class="form-control rounded g-px-20 g-py-12 mb-3" type="text" placeholder="Your Address">
+        <input class="form-control rounded g-px-20 g-py-12 mb-3" type="email" placeholder="Your Phone Number">
+        <div class="g-mb-35">
+            <button class="btn btn-block u-btn-black g-brd-main g-brd-primary--hover g-bg-main g-bg-primary--hover g-font-weight-600 g-font-size-12 text-uppercase g-px-25 g-py-13" type="submit">Submit</button>
+        </div>
+
+        </div>
+        </form>
+        <!-- End Join Form -->
+    </div>
+    </div>
+</div>
+</div>
+<!-- End Promo Block -->
+
+
+{% endblock content %}
